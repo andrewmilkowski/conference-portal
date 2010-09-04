@@ -10,7 +10,7 @@ class ConferencePortal(info: ProjectInfo) extends DefaultWebProject(info) {
   lazy val SCALA_SPECS_VERSION  = "1.6.6-SNAPSHOT"
 
   // Compiler settings
-
+/*
   override def compileOptions = super.compileOptions ++
     Seq("-target:jvm-1.5",
         "-nowarn",
@@ -23,7 +23,7 @@ class ConferencePortal(info: ProjectInfo) extends DefaultWebProject(info) {
         "-encoding", "utf8")
         .map(x => CompileOption(x))
   override def javaCompileOptions = JavaCompileOption("-Xlint:unchecked") :: super.javaCompileOptions.toList
-
+*/
 
   // JRebel (redeploy on any changes)
 
