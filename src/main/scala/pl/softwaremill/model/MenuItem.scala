@@ -40,7 +40,7 @@ class MenuItem extends LongKeyedMapper[MenuItem] with IdPK with OneToMany[Long, 
     def createNew = new MenuItem
   }
 
-  def children: List[MenuItem] = _children.sorted
+  def children: List[MenuItem] = _children.sortedPosition
 
   object parent extends LongMappedMapper[MenuItem, MenuItem](this, MenuItem)
 

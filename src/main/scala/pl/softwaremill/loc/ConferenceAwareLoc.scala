@@ -26,7 +26,7 @@ trait ConferenceAwareLoc extends Loc[Conference] {
   protected val PathList: List[String]
 
   def link = new Link(PathList) with LinkWithParams[Conference] {
-    def params(value: Conference) = { Map(ConfIdParam -> value.id.is.toString) }
+  def params(value: Conference) = { Map(ConfIdParam -> value.id.is.toString) }
   }
 
   def defaultValue = Empty

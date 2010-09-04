@@ -48,9 +48,9 @@ object ConferenceTest extends Specification {
       conf._rooms.deleteObj(conf.rooms(1))
 
       conf.rooms.size must_== 3
-      conf.rooms(0).name must_== "r1"
-      conf.rooms(1).name must_== "r3"
-      conf.rooms(2).name must_== "r4"
+      conf.rooms(0).name.toString must_== "r1"
+      conf.rooms(1).name.toString must_== "r3"
+      conf.rooms(2).name.toString must_== "r4"
     }
 
     "correctly re-assign indexes for the first room" >> {
@@ -169,7 +169,7 @@ object ConferenceTest extends Specification {
   }
 
   def checkRoomPositions(conf: Conference) {
-    for (i <- 0 until conf.rooms.size) conf.rooms(i).position must_== i
+    for (i <- 0 until conf.rooms.size) conf.rooms(i).position.toInt must_== i
   }
 
   def checkRoomNames(conf: Conference, names: String*) {

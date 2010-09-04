@@ -1,5 +1,9 @@
+*.swp
 *.iml
-out
-target
 .idea
-adamw.props
+*.stdout
+*.stderr
+target
+lib_managed
+project/boot
+project/build/target

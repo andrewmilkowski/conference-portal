@@ -1,0 +1,7 @@
+Fork from http://github.com/adamw/conference-portal
+
+Lift project with full range of Lift features
+
+Implements Drools solver http://www.jboss.org/drools/drools-solver.html (currently runs off drools-core-5.1.0.M1.jar) 
+
+Port to scala 2.8.0 and lift 2.1-SNAPSHOT with sbt and maven

@@ -41,7 +41,7 @@ class Conference extends LongKeyedMapper[Conference] with IdPK with OneToMany[Lo
     def createNew = new Room
   }
 
-  def rooms = _rooms.sorted
+  def rooms = _rooms.sortedPosition
 
   object slots extends MappedOneToMany(Slot, Slot.conference)
     with Owned[Slot] with Cascade[Slot]
@@ -118,7 +118,7 @@ object Conference extends Conference with LongKeyedMetaMapper[Conference] {
       FieldError(name, Text(?("conference.slots.overlap", e1.startTime, e2.endTime,
         e2.startTime, e2.endTime, roomDesc.name)))
     
-    List(conf => (conf.slots.flatMap(slot => slot.validate) ++
+    List(conf => (conf.slots.flatMap(slot => slot.validate) ++=
             conf.validateSlots(slotsOverlap _) ++
             conf.validateRooms).toList)
   }

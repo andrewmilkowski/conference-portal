@@ -1,4 +1,9 @@
-db.driver=org.h2.Driver
-db.url=jdbc:h2:mem:conference
-db.user=
+#db.driver=org.h2.Driver
+#db.url=jdbc:h2:mem:conference
+#db.user=
+#db.password=
+
+db.driver=com.mysql.jdbc.Driver
+db.url=jdbc:mysql://localhost/conference2
+db.user=admin
 db.password=

@@ -29,7 +29,7 @@ trait PositionManager[C <: OneToMany[Long, C], T <: Positionable[T] with Mapper[
     this -= obj
 
     // Fixing the indexes using the sorted list
-    val sortedObjs = sorted
+    val sortedObjs = sortedPosition
     for (i <- obj.position.is until sortedObjs.size) sortedObjs(i).position(i)
     this
   }
@@ -42,7 +42,7 @@ trait PositionManager[C <: OneToMany[Long, C], T <: Positionable[T] with Mapper[
     move(obj, obj.position.is+1, this.size)
   }
 
-  def sorted = this.toList.sort((_: T).position.is < (_: T).position.is)
+  def sortedPosition = this.toList.sort((_: T).position.is < (_: T).position.is)
 
   private def move(obj: T, newIdx: Int, bound: Int) = {
     if (newIdx != bound) {

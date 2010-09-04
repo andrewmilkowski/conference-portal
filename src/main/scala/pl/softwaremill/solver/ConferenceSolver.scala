@@ -15,11 +15,12 @@ class ConferenceSolver {
 
   val randomSeed = System.currentTimeMillis
 
-  def createConfigurer: XmlSolverConfigurer = {
+  def createConfigurer: XmlSolverConfigurer = { 
     val configurer = new XmlSolverConfigurer()
     configurer.configure(configPath);
     configurer.getConfig.setRandomSeed(randomSeed)
     configurer
+
   }
 
   def createSolver: Solver = {

@@ -19,6 +19,20 @@ import pl.softwaremill.snippet.{CurrentAuthor, CurrentConference, CurrentMenuIte
 import LocTools._
 import Util._
 
+import net.liftweb.util.Helpers._
+
+trait LinkWithParams[T] extends Link[Conference] {
+   
+  override def createPath(value: Conference) = {
+    val path = super.createPath(value)
+    val paramsMap = params(value)
+    val paramsString = paramsMap.map({ case (k, v) => urlEncode(k) + "=" + urlEncode(v) }).mkString("?", "&", "")
+    path + paramsString
+  }
+
+  def params(value: Conference): Map[String, String]
+}
+
 /**
  * @author Adam Warski (adam at warski dot org)
  */
@@ -41,6 +55,7 @@ object Locs {
    * Serves all paths with the path equals to {@code PathList} (but not sub-paths).
    */
   trait SinglePathLoc[T] extends PrefixLoc[T] {
+
     def link = new Link(PathList)
 
     def params: List[Loc.LocParam[T]] = Nil
@@ -208,7 +223,7 @@ object Locs {
   }
 
   abstract class RegisterWithCodeLocBase extends PrefixLoc[String] {
-    private val RegisterWithCodePath0 = "register"
+    protected val RegisterWithCodePath0 = "register"
     protected val RegisterWithCodePath1: String
 
     private[loc] val PathList = RegisterWithCodePath0 :: RegisterWithCodePath1 :: Nil
@@ -251,8 +266,11 @@ object Locs {
   }
 
   class RegisterValidateLocBase extends RegisterWithCodeLocBase {
+
     protected val RegisterWithCodePath1 = "validate"
 
+    override private[loc] val PathList = RegisterWithCodePath0 :: RegisterWithCodePath1 :: Nil
+   
     def name = "RegisterValidate"
 
     def text = new LinkText(ignore => Text(?("menu.register.validate")))
@@ -261,16 +279,14 @@ object Locs {
 
     val errorMessageKey = "register.validation.unsuccessfull"
     val infoMessageKey = "register.validation.successfull"
-
-    override def infoResponse(reg: Registration) = {
-      notice(?(infoMessageKey, reg.conference.obj.open_!.name.is))
-      User.logUserIn(reg.user.obj.open_!)
-      (RewriteResponse(SchedulePreferencesLoc.PathList), null)
-    }      
+ 
   }
 
   class RegisterConfirmLocBase extends RegisterWithCodeLocBase {
+
     protected val RegisterWithCodePath1 = "confirm"
+    
+    override private[loc] val PathList = RegisterWithCodePath0 :: RegisterWithCodePath1 :: Nil
 
     def name = "RegisterConfirm"
 
@@ -342,7 +358,8 @@ object Locs {
     override def params: List[Loc.LocParam[User]] = Hidden :: Nil
 
     override def link = new Link[User](PathList) {
-      override def pathList(user: User): List[String] = super.pathList(user) ++ List(user.uniqueId)
+      
+    override def pathList(user: User): List[String] = super.pathList(user) ++ List(user.uniqueId.toString())
     }
 
     protected val RedirectTo: List[String]
@@ -401,7 +418,7 @@ object Menus {
           c4pMenu ::
           // Schedule preferences
           Menu(SchedulePreferencesLoc) ::
-          Menu(AutoLoginSchedulePreferencesLoc) :: 
+          //Menu(AutoLoginSchedulePreferencesLoc) :: 
           // View papers
           Menu(ViewPaperLoc) ::
           // View author
